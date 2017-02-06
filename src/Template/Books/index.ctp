@@ -37,7 +37,7 @@
                     <td> <a href='/cakephp/books/update'> <?php echo h($obj['title']) ?></a></td>
                     <td><?php echo $obj['author'] ?></td>
                     <td><?php echo $obj['released_in'] ?></td>
-                    <td><a href='/cakephp/reviews/review/<?php echo $obj['id']?>'>口コミ</a></td>
+                    <td><a href='/cakephp/reviews/review/<?php echo h($obj['id'])?>'>口コミ</a></td>
                     <td><?php echo $obj['created'] ?></td>
                     <td><?php echo $obj['modified'] ?></td>  
                    <!-- <td><!input type="submit" value="削除"></td>-->
