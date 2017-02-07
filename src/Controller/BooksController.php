@@ -50,13 +50,15 @@ class BooksController extends AppController{
         // GETか？
         if($this->request->is('get')){
             // GETである
+            // CSRF対策 ワンタイムトークン発行
+            // セッションに記録
             // 新規登録画面を表示
             $str = sha1(time());
             $_SESSION['one_time_token'] = $str;
             $this->set('str' , $str);
             $this->Render('/Books/add');
             
-        }       
+        }// ワンタイムトークンが一致するか      
         elseif($_SESSION['one_time_token'] != $this->request->data('one_time_token')) {
             
             echo '危険なアクセス';
@@ -87,12 +89,14 @@ class BooksController extends AppController{
         if($this->request->is('get')){
             // GETである
             $str = sha1(time());
+            // CSRF対策 ワンタイムトークン発行
+            // セッションに記録
             $_SESSION['one_time_token'] = $str;
             $this->set('str' , $str);
             // 新規更新画面を表示
             $this->Render('/Books/update');
             
-        }       
+        }// ワンタイムトークンが一致するか   
         elseif($_SESSION['one_time_token'] != $this->request->data('one_time_token')) {
             
             echo '危険なアクセス';

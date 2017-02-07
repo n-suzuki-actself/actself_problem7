@@ -24,10 +24,10 @@
                 <tbody>
                 <?php foreach($data as $obj): ?> 
                 <tr>
-                    <td><?php echo $obj['id']; ?></td>
-                    <td> <a href='/cakephp/users/update'> <?php echo $obj['mail_address'] ?></a></td>
-                    <td><?php echo $obj['password'] ?></td>
-                    <td><?php echo $obj['name'] ?></td>
+                    <td><?php echo h($obj['id']) ?></td>
+                    <td> <a href='/cakephp/users/update'> <?php echo h($obj['mail_address']) ?></a></td>
+                    <td><?php echo h($obj['password']) ?></td>
+                    <td><?php echo h($obj['name']) ?></td>
                     <td><?php echo $obj['created'] ?></td>
                     <td><?php echo $obj['modified'] ?></td>  
                     <td> <a href="/cakephp/users/delete/<?php echo $obj['id']?>"  onClick='return CheckDelete()' >削除</a></td>

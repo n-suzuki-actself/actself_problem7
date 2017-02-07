@@ -34,12 +34,15 @@ class UsersController extends AppController{
         // GETか？
         if($this->request->is('get')){
             // GETである
+            // CSRF対策 ワンタイムトークン発行
+            // セッションに記録
             $str = sha1(time());
             $_SESSION['one_time_token'] = $str;
             $this->set('str' , $str);
             // 新規登録画面を表示
             $this->Render('/Users/add');
-        }
+            
+        }// ワンタイムトークンが一致するか
         elseif($_SESSION['one_time_token'] != $this->request->data('one_time_token')) {
             
             echo '危険なアクセス';
@@ -67,12 +70,15 @@ class UsersController extends AppController{
         // GETか？
         if($this->request->is('get')){
             // GETである
+            // CSRF対策 ワンタイムトークン発行
+            // セッションに記録
             $str = sha1(time());
             $_SESSION['one_time_token'] = $str;
             $this->set('str' , $str);
             // 更新画面を表示
             $this->Render('/Users/update');
-        }
+            
+        }// ワンタイムトークンが一致するか
         elseif($_SESSION['one_time_token'] != $this->request->data('one_time_token')){
             
             echo '危険なアクセス';

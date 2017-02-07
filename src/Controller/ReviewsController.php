@@ -58,6 +58,8 @@ class ReviewsController extends AppController{
         //GETか？
         if($this->request->is('get')){               
             // GETである
+            // CSRF対策 ワンタイムトークン発行
+            // セッションに記録
             $str = sha1(time());
             $_SESSION['one_time_token'] = $str;
             $this->set('str' , $str);            
@@ -74,7 +76,7 @@ class ReviewsController extends AppController{
             $this->set('data' , $data);
             $this->Render('/Reviews/add_review');
                 
-        }
+        }// ワンタイムトークンが一致するか
         elseif($_SESSION['one_time_token'] != $this->request->data('one_time_token')) {
             
             echo '危険なアクセス'; 
@@ -102,6 +104,8 @@ class ReviewsController extends AppController{
         // GETか？
         if($this->request->is('get')){               
             // GETである
+            // CSRF対策 ワンタイムトークン発行
+            // セッションに記録            
             $str = sha1(time());
             $_SESSION['one_time_token'] = $str;
             $this->set('str' , $str);
@@ -118,7 +122,7 @@ class ReviewsController extends AppController{
             $this->set('data' , $data);
             $this->Render('/Reviews/update_review');
                 
-        }
+        }// ワンタイムトークンが一致するか       
         elseif($_SESSION['one_time_token'] != $this->request->data('one_time_token')) {
             
             echo '危険なアクセス'; 
