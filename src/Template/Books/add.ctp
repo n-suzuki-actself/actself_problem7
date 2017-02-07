@@ -12,9 +12,7 @@
 		タイトル：<input name="title" type="text" style="width:150px"><br/>
 		著者：<input name="author" type="text" style="width:150px"><br/>
 		出版年：<input name="released_in" type="text" style="width:50px"><br/>
-                <input name="time" type="text" value="<?php echo $str ?>">
-                <!--<input name="time" type="text" value="123">-->
-                
+                <input name="one_time_token" type="hidden" value="<?php echo $str ?>">                     
                 </fieldset>
 		<input type="submit" value="登録">
 		<br/><br/>                		                                               

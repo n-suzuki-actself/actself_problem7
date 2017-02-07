@@ -16,6 +16,7 @@ class UsersController extends AppController{
             // ログインされてない
             // リダイレクト　ログイン画面へ
             return $this->redirect(['controller' => 'Logins', 'action' => 'login']);
+            
         }
         
     }
@@ -33,8 +34,16 @@ class UsersController extends AppController{
         // GETか？
         if($this->request->is('get')){
             // GETである
+            $str = sha1(time());
+            $_SESSION['one_time_token'] = $str;
+            $this->set('str' , $str);
             // 新規登録画面を表示
             $this->Render('/Users/add');
+        }
+        elseif($_SESSION['one_time_token'] != $this->request->data('one_time_token')) {
+            
+            echo '危険なアクセス';
+            
         }
         else{
             // GET以外である
@@ -50,15 +59,24 @@ class UsersController extends AppController{
             $this->redirect('/Users/index');
                 
         }
-            
+    
+        
     }
                         
     public function update(){
         // GETか？
         if($this->request->is('get')){
             // GETである
+            $str = sha1(time());
+            $_SESSION['one_time_token'] = $str;
+            $this->set('str' , $str);
             // 更新画面を表示
             $this->Render('/Users/update');
+        }
+        elseif($_SESSION['one_time_token'] != $this->request->data('one_time_token')){
+            
+            echo '危険なアクセス';
+            
         }
         else{
             // GET以外である

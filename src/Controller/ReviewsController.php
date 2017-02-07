@@ -58,6 +58,9 @@ class ReviewsController extends AppController{
         //GETか？
         if($this->request->is('get')){               
             // GETである
+            $str = sha1(time());
+            $_SESSION['one_time_token'] = $str;
+            $this->set('str' , $str);            
             // 新規登録画面を表示
             $books = TableRegistry::get('Books');
             // 口コミ登録する書籍のタイトルを表示したい
@@ -72,6 +75,11 @@ class ReviewsController extends AppController{
             $this->Render('/Reviews/add_review');
                 
         }
+        elseif($_SESSION['one_time_token'] != $this->request->data('one_time_token')) {
+            
+            echo '危険なアクセス'; 
+            
+        }        
         else{
             // GET以外である
             // Tableクラスを呼び出して、登録処理
@@ -94,6 +102,9 @@ class ReviewsController extends AppController{
         // GETか？
         if($this->request->is('get')){               
             // GETである
+            $str = sha1(time());
+            $_SESSION['one_time_token'] = $str;
+            $this->set('str' , $str);
             // 更新画面を表示
             $books = TableRegistry::get('Books');
             // 口コミ更新する書籍のタイトルを表示したい
@@ -107,6 +118,11 @@ class ReviewsController extends AppController{
             $this->set('data' , $data);
             $this->Render('/Reviews/update_review');
                 
+        }
+        elseif($_SESSION['one_time_token'] != $this->request->data('one_time_token')) {
+            
+            echo '危険なアクセス'; 
+            
         }
         else{
             // GET以外である

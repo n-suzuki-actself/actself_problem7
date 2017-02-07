@@ -22,9 +22,9 @@ class UsersTable extends Table{
         $conn   = ConnectionManager::get('default');       
         $conn->execute('INSERT INTO users SET mail_address = ? , password = ? , name = ?' , $params);
         // 今登録したレコードを取得する    
-        $rows = $this->getRecord($mail_address , "mail_address"); 
+        $row = $this->getRecord($mail_address , "mail_address"); 
         // @updateRecordにハッシュ化を依頼
-        $id = $rows['id'];
+        $id = $row['id'];
         $this->updateRecord($id , $mail_address , $password , $name);
         
     } 
@@ -33,8 +33,8 @@ class UsersTable extends Table{
         
         $conn = ConnectionManager::get('default');
         //登録日時を取得
-        $rows = $this->getRecord($id , "id");
-        $salt = $rows['created'];
+        $row = $this->getRecord($id , "id");
+        $salt = $row['created'];
         //パスワードに登録日時連結、ハッシュ化
         $password_with_salt = sha1($password . $salt);
         

@@ -22,7 +22,7 @@ class LoginsController extends AppController{
             $rows = $users->getRecord($mail_address , "mail_address");
             
             if(! isset($rows['mail_address'])){
-                echo "メールアドレスが登録されていません";
+                echo "メールアドレス又はパスワードが合っていません";
                 // ログイン画面へ
                 // エラー文言表示
                 $this->Render('/Logins/login');
@@ -38,7 +38,7 @@ class LoginsController extends AppController{
                 if($password_with_salt != $db_password){
                     //ログイン画面へ
                     //エラー文言表示
-                    echo 'パスワードが不当です';
+                    echo 'メールアドレス又はパスワードが合っていません';
                     $this->Render('/Logins/login');
                 }
                 else{

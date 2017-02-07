@@ -47,28 +47,24 @@ class BooksController extends AppController{
     }
         
     public function add(){  
-        //$str = time();
         // GETか？
         if($this->request->is('get')){
             // GETである
             // 新規登録画面を表示
             $str = sha1(time());
-            $_SESSION['time'] = $str;
-            //var_dump($str);
+            $_SESSION['one_time_token'] = $str;
             $this->set('str' , $str);
             $this->Render('/Books/add');
             
-        }
-        
-        elseif($_SESSION['time'] != $this->request->data('time')) {
+        }       
+        elseif($_SESSION['one_time_token'] != $this->request->data('one_time_token')) {
             
             echo '危険なアクセス';
             
-            var_dump($this->request->data('time'));
-            var_dump($_SESSION['time']);
+           // var_dump($this->request->data('one_time_token'));
+            //var_dump($_SESSION['one_time_token']);
             
-        }
-        
+        }        
         else{         
             // GET以外である
             // Tableクラスを呼び出して、登録処理
@@ -90,8 +86,17 @@ class BooksController extends AppController{
         // GETか？
         if($this->request->is('get')){
             // GETである
+            $str = sha1(time());
+            $_SESSION['one_time_token'] = $str;
+            $this->set('str' , $str);
             // 新規更新画面を表示
             $this->Render('/Books/update');
+            
+        }       
+        elseif($_SESSION['one_time_token'] != $this->request->data('one_time_token')) {
+            
+            echo '危険なアクセス';
+          
         }
         else{
             // GET以外である

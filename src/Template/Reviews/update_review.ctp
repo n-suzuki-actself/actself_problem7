@@ -26,6 +26,7 @@
                 <option>5</option>
                 </select>
 		<input name="book_id" type="hidden" value="<?php echo $data['id'] ?>">
+                <input name="one_time_token" type="hidden" value="<?php echo $str ?>">
                 </fieldset>
 		<input type="submit" value="更新">
 		<br/><br/>

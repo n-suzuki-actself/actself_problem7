@@ -11,8 +11,7 @@
         <br>       
         <a href="/cakephp/reviews/addreview/<?php echo $data['id'] ?>" >新規登録</a>
         <table border="1">
-                        <thead>
-        
+                        <thead>       
 				<tr>
 					<th>ID</th>
 					<th>見出し</th>
@@ -21,27 +20,21 @@
 					<th>登録日時</th>
 					<th>更新日時</th>					
 				</tr>
-
-
-			</thead>
-		
-	
+			</thead>	
                 <tbody>
-                   <!-- <form action="delete" method="post">-->
                 <?php foreach($list as $obj): ?> 
-
-                    <td><?php echo $obj['id']; ?></td>
-                    <td> <a href="/cakephp/reviews/updatereview/<?php echo $data['id'] ?>" > <?php echo $obj['header'] ?></a></td>
-                    <td><?php echo $obj['nickname'] ?></td>
+                <tr>
+                    <td><?php echo h($obj['id']) ?></td>
+                    <td> <a href="/cakephp/reviews/updatereview/<?php echo $data['id'] ?>" > <?php echo h($obj['header']) ?></a></td>
+                    <td><?php echo h($obj['nickname']) ?></td>
                     <td> <a href="/cakephp/reviews/deletereview/<?php echo $obj['id']?>/<?php echo $data['id']?>"  onClick='return CheckDelete()' >削除</a></td>
                     <td><?php echo $obj['created'] ?></td>
                     <td><?php echo $obj['modified'] ?></td> 
-                    <input name="book_id" type="hidden" value="<?php echo $data['id']?>">
+                    <input name="book_id" type="hidden" value="<?php echo $data['id']?>">                   
                 </tr>
 		<?php endforeach; ?>
 		</tbody>
-                </table>
-        
+                </table>       
         <script>
             function CheckDelete(){
                 if(window.confirm('本当に削除しますか？')){
@@ -53,9 +46,6 @@
                 }
             }              
                 //alerf("pass");
-                                          
-
         </script>
-
     </body>
 </html>
