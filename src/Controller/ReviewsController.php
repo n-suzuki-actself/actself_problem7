@@ -94,8 +94,18 @@ class ReviewsController extends AppController{
             $book_id    = $this->request->data('book_id');
             
             $reviews->addRecord($header , $nickname , $body , $star_count , $book_id);
-            // その後、review()へリダイレクト  
-            return $this->redirect(['action' => 'review', $book_id]);
+            $rows = $reviews->getList($book_id);
+            $record_count = 0;
+            $total= 0;
+            foreach($rows as $data):
+                $record_count++;
+                $total = $total+$data['star_count'];
+            endforeach;
+            $average = round($total/$record_count , 2);
+            
+            // その後、
+            // review()へリダイレクト  
+           // return $this->redirect(['action' => 'review', $book_id]);
         }
              
     }
