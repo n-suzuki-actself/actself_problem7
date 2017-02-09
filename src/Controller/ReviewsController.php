@@ -30,7 +30,7 @@ class ReviewsController extends AppController{
         $rows = $books->getRecord($id);
         $title = $rows['title'];
         $data =[
-            'id' => $id,
+            'id'    => $id,
             'title' => $title            
                 
         ];
@@ -48,7 +48,9 @@ class ReviewsController extends AppController{
     public function deletereview($id , $book_id){  
         // Tableクラスを呼び出して、削除処理
         $reviews = TableRegistry::get('Reviews');
-        $reviews->delRecord($id);                
+        $reviews->delRecord($id);  
+        // 口コミの5段階評価の平均点を計算を委託
+        $this->_average($book_id);                          
         // その後、review()へリダイレクト
         $this->redirect(['action' => 'review', $book_id]);
                     
@@ -69,7 +71,7 @@ class ReviewsController extends AppController{
             $rows = $books->getRecord($id);
             $title = $rows['title'];
             $data =[
-                'id' => $id,
+                'id'    => $id,
                 'title' => $title                           
             ];
             
@@ -94,18 +96,11 @@ class ReviewsController extends AppController{
             $book_id    = $this->request->data('book_id');
             
             $reviews->addRecord($header , $nickname , $body , $star_count , $book_id);
-            $rows = $reviews->getList($book_id);
-            $record_count = 0;
-            $total= 0;
-            foreach($rows as $data):
-                $record_count++;
-                $total = $total+$data['star_count'];
-            endforeach;
-            $average = round($total/$record_count , 2);
+            // 口コミの5段階評価の平均点を計算を委託
+            $this->_average($book_id);          
+            // その後、review()へリダイレクト  
+            return $this->redirect(['action' => 'review', $book_id]);
             
-            // その後、
-            // review()へリダイレクト  
-           // return $this->redirect(['action' => 'review', $book_id]);
         }
              
     }
@@ -125,7 +120,7 @@ class ReviewsController extends AppController{
             $rows = $books->getRecord($id);
             $title = $rows['title'];
             $data =[
-                'id' => $id,
+                'id'    => $id,
                 'title' => $title            
                 
             ];               
@@ -151,13 +146,34 @@ class ReviewsController extends AppController{
             $book_id    = $this->request->data('book_id');
             
             $reviews->updateRecord($id , $header , $nickname , $body , $star_count , $book_id);
-                // その後、review()へリダイレクト
+            // 口コミの5段階評価の平均点を計算を委託
+            $this->_average($book_id);            
+            // その後、review()へリダイレクト
             return $this->redirect(['action' => 'review', $book_id]);
             
         }
              
     }
-        
-
+    
+    public function _average($book_id){
+        $reviews = TableRegistry::get('Reviews');
+        // 口コミの5段階評価の平均点を計算する
+        $rows = $reviews->getList($book_id);           
+        $record_count = 0;
+        $total= 0;
+        // 書籍に紐づく口コミのレコード合計数と口コミ評価合計数を計算する
+        foreach($rows as $data):
+                
+            $record_count++;
+            $total = $total+$data['star_count'];
+                
+        endforeach;
+            
+        $average = round($total/$record_count , 2);
+        // 平均点をbooksテーブル＠average_scoreカラムに更新する
+        $books = TableRegistry::get('Books');
+        $books->updateAverage($book_id , $average);
+            
+    }
 
 }
