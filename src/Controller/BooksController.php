@@ -115,9 +115,35 @@ class BooksController extends AppController{
             $books->updateRecord($id , $title , $author , $released_in);
             // その後、index()へリダイレクト  
             $this->redirect('/Books/index');
-                
-        }
+            
+        }                         
                     
     }     
+
+    public function search(){
+        // GETか？
+        if($this->request->is('get')){
+            $str = sha1(time());
+            // CSRF対策 ワンタイムトークン発行
+            // セッションに記録
+            $_SESSION['one_time_token'] = $str;
+            $this->set('str' , $str);
+            $this->Render('/Books/search'); 
+        }
+        else{
+            // GET以外である
+            // Tableクラスを呼び出して、タイトルのキーワード検索
+            $books = TableRegistry::get('Books');
+            
+            $keyword = $this->request->data('keyword');
+            
+            $data = $books->searchRecords($keyword);
+            // その後、キーワード検索結果を表示
+            $this->set('data' , $data);
+            $this->Render('/Books/index');
+       
+        }   
         
+    }
+    
 }

@@ -51,36 +51,21 @@ class BooksTable extends Table{
        
     }
     
-   public function updateAverage($book_id , $average){
+    public function updateAverage($book_id , $average){
         $params = array($average , $book_id);       
         $conn = ConnectionManager::get('default');       
         $conn->execute('UPDATE books SET average_score = ? WHERE id = ?' , $params);
      
     }
     
-//    public function averageScore($book_id){
-//        $conn = ConnectionManager::get('default');
-//        //App:import('Model' ,'Reviews');
-//        //$obj_reviews = new Reviews();
-//        //$obj_reviews = ClassRegistry::init('Reviews');
-//        $rows = $obj_reviews->getList($book_id);
-//        
-//        $record_count = 0;
-//        $total= 0;
-//        // 書籍に紐づく口コミのレコード合計数と口コミ評価合計数を計算する
-//        foreach($rows as $data):
-//                
-//            $record_count++;
-//            $total = $total+$data['star_count'];
-//                
-//        endforeach;
-//        $average = round($total/$record_count , 2);
-//        
-//        
-//        $params = array($average , $book_id);       
-//               
-//        $conn->execute('UPDATE books SET average_score = ? WHERE id = ?' , $params);
-//     
-//    }
+    public function searchRecords($keyword){
+        $keyword = "%" . $keyword . "%";    
+        $params = array($keyword);
+        $conn = ConnectionManager::get('default');
+        $stmt = $conn->execute('SELECT * FROM books WHERE title LIKE ?' , $params);
+        $rows = $stmt->fetchAll('assoc');
+        return $rows;
+        
+    }
     
 }

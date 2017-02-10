@@ -5,9 +5,10 @@
     </head>
     <body>
         <h1>書籍情報一覧表示</h1>
+        
         <br>
-        <a href='/cakephp/books/add'>新規登録</a>
-        <br>
+        <a href='/cakephp/books/search'>タイトル絞り込み検索</a>　
+        <a href='/cakephp/books/add'>新規登録</a>　
         <a href='/cakephp/users/index'>ユーザー情報一覧</a>
         <br>
         <br>

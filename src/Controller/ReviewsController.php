@@ -155,7 +155,7 @@ class ReviewsController extends AppController{
              
     }
     
-    public function _average($book_id){
+    private function _average($book_id){
         $reviews = TableRegistry::get('Reviews');
         // 口コミの5段階評価の平均点を計算する
         $rows = $reviews->getList($book_id);           
