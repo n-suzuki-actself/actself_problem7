@@ -11,6 +11,10 @@
         <a href='/cakephp/books/add'>新規登録</a>　
         <a href='/cakephp/users/index'>ユーザー情報一覧</a>
         <br>
+        <form action="/cakephp/books/indexByAverage" method="post">
+        <input type="submit" value="書籍の評価順に並び替える">
+        </form>
+        <br>
         <br>
         <table border="1">
                             <thead>

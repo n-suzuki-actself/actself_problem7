@@ -7,9 +7,9 @@ use Cake\Datasource\ConnectionManager;
 
 class BooksTable extends Table{
     
-    public function getList(){
+    public function getList($column_name){
         $conn = ConnectionManager::get('default');
-	$stmt = $conn->query('SELECT * FROM books ORDER BY id DESC;');
+	$stmt = $conn->query('SELECT * FROM books ORDER BY ' . $column_name . ' DESC;');
 	$rows = $stmt->fetchAll('assoc');
 	return $rows;
        

@@ -23,12 +23,23 @@ class BooksController extends AppController{
     public function index(){
         // 書籍一覧画面表示
         $books = TableRegistry::get('Books');
-        $data = $books->getList();
+        // 登録日時を降順に表示したい
+        $column_name = "id";
+        $data = $books->getList($column_name);
         $this->set('data' , $data);
         $this->Render('/Books/index');
         
     }
     
+    public function indexByAverage(){
+        // 書籍評価の高い順に並び替えて一覧表示する
+        $books = TableRegistry::get('Books');
+        $column_name = "average_score";
+        $data = $books->getList($column_name);
+        $this->set('data' , $data);       
+        $this->Render('/Books/index');
+        
+    }
                        
     public function delete($id){  
         // GETか？
