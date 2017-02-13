@@ -4,7 +4,9 @@ namespace App\Model\Table;
 
 use Cake\ORM\Table;
 use Cake\Datasource\ConnectionManager;
-$validator = new Validator();
+use Cake\Validation\Validator;
+
+//$validator = new Validator();
 
 class BooksTable extends Table{
     
@@ -82,6 +84,7 @@ class BooksTable extends Table{
             ->notEmpty('released_in' , '出版年を入力してください')    
         ;
         return $validator;
+        
     }
     
     
