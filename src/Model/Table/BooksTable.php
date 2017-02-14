@@ -4,7 +4,7 @@ namespace App\Model\Table;
 
 use Cake\ORM\Table;
 use Cake\Datasource\ConnectionManager;
-use Cake\Validation\Validator;
+//use Cake\Validation\Validator;
 
 //$validator = new Validator();
 
@@ -71,21 +71,21 @@ class BooksTable extends Table{
         
     }
     
-    public function validationDefault(Validator $validator)
-    {
-        $validator
-            ->requirePresence('title')
-            ->notEmpty('title' , 'タイトルを入力してください')
-            
-            ->requirePresence('author')
-            ->notEmpty('author' , '著者を入力してください') 
-                
-            ->requirePresence('released_in')
-            ->notEmpty('released_in' , '出版年を入力してください')    
-        ;
-        return $validator;
-        
-    }
+//    public function validationDefault(Validator $validator)
+//    {
+//        $validator
+//            ->requirePresence('title')
+//            ->notEmpty('title' , 'タイトルを入力してください')
+//            
+//            ->requirePresence('author')
+//            ->notEmpty('author' , '著者を入力してください') 
+//                
+//            ->requirePresence('released_in')
+//            ->notEmpty('released_in' , '出版年を入力してください')    
+//        ;
+//        return $validator;
+//        
+//    }
     
     
     

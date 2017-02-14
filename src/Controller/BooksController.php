@@ -6,7 +6,7 @@ use Cake\ORM\TableRegistry;
 class BooksController extends AppController{
 
     public $name = 'Books';
-    public $autoRender = false;
+    //public $autoRender = false;
     
     public function __construct(\Cake\Network\Request $request = null, \Cake\Network\Response $response = null, $name = null, $eventManager = null, $components = null) {
         parent::__construct($request, $response, $name, $eventManager, $components);
@@ -24,10 +24,12 @@ class BooksController extends AppController{
         // 書籍一覧画面表示
         $books = TableRegistry::get('Books');
         // 登録日時を降順に表示したい
-        $column_name = "id";
-        $data = $books->getList($column_name);
+        //$column_name = "id";
+        //$data = $books->getList($column_name);
+        $data = $books->find('all');
         $this->set('data' , $data);
-        $this->Render('/Books/index');
+        //
+        //$this->Render('/Books/index');
         
     }
     
@@ -57,43 +59,61 @@ class BooksController extends AppController{
         }           
     }
         
-    public function add(){  
+//    public function add(){  
+//        // GETか？
+//        if($this->request->is('get')){
+//            // GETである
+//            // CSRF対策 ワンタイムトークン発行
+//            // セッションに記録
+//            // 新規登録画面を表示
+//            $str = sha1(time());
+//            $_SESSION['one_time_token'] = $str;
+//            $this->set('str' , $str);
+//            $this->Render('/Books/add');
+//            
+//        }// ワンタイムトークンが一致するか      
+//        elseif($_SESSION['one_time_token'] != $this->request->data('one_time_token')) {
+//            
+//            echo '危険なアクセス';
+//            
+//           // var_dump($this->request->data('one_time_token'));
+//            //var_dump($_SESSION['one_time_token']);
+//            
+//        }        
+//        else{         
+//            // GET以外である
+//            // Tableクラスを呼び出して、登録処理
+//            $books = TableRegistry::get('Books');
+//            
+//            $title       = $this->request->data('title');
+//            $author      = $this->request->data('author');
+//            $released_in = $this->request->data('released_in');
+//               
+//            $books->addRecord($title , $author , $released_in);
+//            // その後、index()へリダイレクト  
+//            $this->redirect('/Books/index');
+//                
+//        }
+//            
+//    }  
+    
+        public function add(){  
         // GETか？
-        if($this->request->is('get')){
-            // GETである
-            // CSRF対策 ワンタイムトークン発行
-            // セッションに記録
-            // 新規登録画面を表示
-            $str = sha1(time());
-            $_SESSION['one_time_token'] = $str;
-            $this->set('str' , $str);
-            $this->Render('/Books/add');
-            
-        }// ワンタイムトークンが一致するか      
-        elseif($_SESSION['one_time_token'] != $this->request->data('one_time_token')) {
-            
-            echo '危険なアクセス';
-            
-           // var_dump($this->request->data('one_time_token'));
-            //var_dump($_SESSION['one_time_token']);
-            
-        }        
-        else{         
+        if($this->request->is('post')){
+       
             // GET以外である
             // Tableクラスを呼び出して、登録処理
-            $books = TableRegistry::get('Books');
-            
-            $title       = $this->request->data('title');
-            $author      = $this->request->data('author');
-            $released_in = $this->request->data('released_in');
+            //$books = TableRegistry::get('Books');
+            $book_data = $this->Books->newEntity($this->request->data);
+            $this->Books->save($book_data);
                
-            $books->addRecord($title , $author , $released_in);
+            
             // その後、index()へリダイレクト  
             $this->redirect('/Books/index');
                 
         }
             
-    }     
+    }
     
     public function update(){
         // GETか？
