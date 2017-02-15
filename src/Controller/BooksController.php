@@ -120,35 +120,18 @@ class BooksController extends AppController{
     
     public function update(){
         // GETか？
-        if($this->request->is('get')){
-            // GETである
-            $str = sha1(time());
-            // CSRF対策 ワンタイムトークン発行
-            // セッションに記録
-            $_SESSION['one_time_token'] = $str;
-            $this->set('str' , $str);
-            // 新規更新画面を表示
-            $this->Render('/Books/update');
+        if($this->request->is('put')){            
+            // Tableクラスを呼び出して、更新処理
+            $entity = $this->Books->get($this->request->data['id']);
+            $this->Books->patchEntity($entity, $this->request->data);
+            $this->Books->save($entity);
             
-        }// ワンタイムトークンが一致するか   
-        elseif($_SESSION['one_time_token'] != $this->request->data('one_time_token')) {
+            $this->redirect('/Books/index');           
             
-            echo '危険なアクセス';
-          
         }
         else{
-            // GET以外である
-            // Tableクラスを呼び出して、更新処理
-            $books = TableRegistry::get('Books');
-            
-            $id          = $this->request->data('id');
-            $title       = $this->request->data('title');
-            $author      = $this->request->data('author');
-            $released_in = $this->request->data('released_in');
-              
-            $books->updateRecord($id , $title , $author , $released_in);
-            // その後、index()へリダイレクト  
-            $this->redirect('/Books/index');
+            // 新規更新画面を表示
+            $this->Render('/Books/update');
             
         }                         
                     

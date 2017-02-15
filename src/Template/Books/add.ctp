@@ -1,6 +1,5 @@
-
                 <h1>書籍情報登録</h1>                
-		<?=$this->Form->create($entity , ['url'=>['action'=>'add']])?>		
+		<?=$this->Form->create($books, ['url'=>['action'=>'add']]) ?>		
                 <fieldset>
 		タイトル：<input name="title" type="text" style="width:150px"><br/>
 		著者：<input name="author" type="text" style="width:150px"><br/>
