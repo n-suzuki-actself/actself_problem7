@@ -22,11 +22,14 @@ class BooksController extends AppController{
            
     public function index(){
         // 書籍一覧画面表示
-        $books = TableRegistry::get('Books');
+        //$books = TableRegistry::get('Books');
         // 登録日時を降順に表示したい
         //$column_name = "id";
         //$data = $books->getList($column_name);
-        $data = $books->find('all');
+        $data = $this->Books->find('all', [
+                'order' => ['created' => 'DESC']
+        ]);
+        
         $this->set('data' , $data);
         //
         //$this->Render('/Books/index');
