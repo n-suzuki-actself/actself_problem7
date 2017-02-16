@@ -1,14 +1,14 @@
 <?php
 
 namespace App\Controller;
-use Cake\ORM\TableRegistry;
+//use Cake\ORM\TableRegistry;
 
 class ReviewsController extends AppController{
 
     public $name = 'Reviews';
     public $autoRender = false;
 
-    /**
+    /**口コミ助
      * 口コミ一覧画面
      */
     
@@ -22,28 +22,37 @@ class ReviewsController extends AppController{
             return $this->redirect(['controller' => 'Logins', 'action' => 'login']);
         }
         
-    }    
+    }  
     
     public function review($id){
-        $books = TableRegistry::get('Books');
-        // 口コミ一覧に書籍のタイトルを表示したい
-        $rows = $books->getRecord($id);
-        $title = $rows['title'];
-        $data =[
-            'id'    => $id,
-            'title' => $title            
-                
-        ];
-           
-        $this->set('data' , $data);
+        $rows = $this->Reviews->findByBook_id($id)
+                ->order(['created' => 'DESC']);
+                //['order' => ['created' =>'DESC']]);
+        $this->set('rows' , $rows);
+        //$this->set('entity' , $this->Reviews->newEntity());
         $this->Render('/Reviews/review');
-        // 口コミ一覧を表示する
-        $reviews = TableRegistry::get('Reviews');
-        $list = $reviews->getList($id);
-        $this->set('list' , $list);
-        $this->Render('/Reviews/review');          
-            
     }
+    
+//    public function review($id){
+//        //$books = TableRegistry::get('Books');
+//        // 口コミ一覧に書籍のタイトルを表示したい
+//        $rows = $books->getRecord($id);
+//        $title = $rows['title'];
+//        $data =[
+//            'id'    => $id,
+//            'title' => $title            
+//                
+//        ];
+//           
+//        $this->set('data' , $data);
+//        $this->Render('/Reviews/review');
+//        // 口コミ一覧を表示する
+//        $reviews = TableRegistry::get('Reviews');
+//        $list = $reviews->getList($id);
+//        $this->set('list' , $list);
+//        $this->Render('/Reviews/review');          
+//            
+//    }
     
     public function deletereview($id , $book_id){  
         // Tableクラスを呼び出して、削除処理

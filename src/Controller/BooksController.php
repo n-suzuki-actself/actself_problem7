@@ -1,12 +1,11 @@
 <?php
 
 namespace App\Controller;
-use Cake\ORM\TableRegistry;
 
 class BooksController extends AppController{
 
     public $name = 'Books';
-    //public $autoRender = false;
+    public $autoRender = false;
     
     public function __construct(\Cake\Network\Request $request = null, \Cake\Network\Response $response = null, $name = null, $eventManager = null, $components = null) {
         parent::__construct($request, $response, $name, $eventManager, $components);
@@ -21,19 +20,13 @@ class BooksController extends AppController{
     }
            
     public function index(){
-        // 書籍一覧画面表示
-        //$books = TableRegistry::get('Books');
-        // 登録日時を降順に表示したい
-        //$column_name = "id";
-        //$data = $books->getList($column_name);
+        
         $data = $this->Books->find('all', [
-                'order' => ['created' => 'DESC']
+            'order' => ['created' => 'DESC']
         ]);
-        
         $this->set('data' , $data);
-        //
-        //$this->Render('/Books/index');
-        
+        $this->set('entity' , $this->Books->newEntity());
+        $this->Render('/Books/index');
     }
     
     public function indexByAverage(){
@@ -47,91 +40,45 @@ class BooksController extends AppController{
     }
                        
     public function delete($id){  
-        // GETか？
-        if($this->request->is('post')){
-            echo '予期しないフロー';
-        }
-        else{                
-            // GET以外である
-            // Tableクラスを呼び出して、削除処理
-            $books = TableRegistry::get('Books');
-            $books->delRecord($id);
+
+        if($this->request->is('get')){
+            $entity = $this->Books->get($id);
+            $this->Books->delete($entity);
             // その後、index()へリダイレクト
             $this->redirect('/Books/index');
             
         }           
-    }
-        
-//    public function add(){  
-//        // GETか？
-//        if($this->request->is('get')){
-//            // GETである
-//            // CSRF対策 ワンタイムトークン発行
-//            // セッションに記録
-//            // 新規登録画面を表示
-//            $str = sha1(time());
-//            $_SESSION['one_time_token'] = $str;
-//            $this->set('str' , $str);
-//            $this->Render('/Books/add');
-//            
-//        }// ワンタイムトークンが一致するか      
-//        elseif($_SESSION['one_time_token'] != $this->request->data('one_time_token')) {
-//            
-//            echo '危険なアクセス';
-//            
-//           // var_dump($this->request->data('one_time_token'));
-//            //var_dump($_SESSION['one_time_token']);
-//            
-//        }        
-//        else{         
-//            // GET以外である
-//            // Tableクラスを呼び出して、登録処理
-//            $books = TableRegistry::get('Books');
-//            
-//            $title       = $this->request->data('title');
-//            $author      = $this->request->data('author');
-//            $released_in = $this->request->data('released_in');
-//               
-//            $books->addRecord($title , $author , $released_in);
-//            // その後、index()へリダイレクト  
-//            $this->redirect('/Books/index');
-//                
-//        }
-//            
-//    }  
+    }    
     
         public function add(){  
-        // GETか？
         if($this->request->is('post')){
-       
-            // GET以外である
-            // Tableクラスを呼び出して、登録処理
-            //$books = TableRegistry::get('Books');
             $book_data = $this->Books->newEntity($this->request->data);
-            $this->Books->save($book_data);
-               
-            
+            $this->Books->save($book_data);            
             // その後、index()へリダイレクト  
             $this->redirect('/Books/index');
                 
         }
+        else{
+            $this->set('entity' , $this->Books->newEntity());
+            $this->Render('/Books/add');
+        }
             
     }
     
-    public function update(){
-        // GETか？
-        if($this->request->is('put')){            
-            // Tableクラスを呼び出して、更新処理
-            $entity = $this->Books->get($this->request->data['id']);
-            $this->Books->patchEntity($entity, $this->request->data);
-            $this->Books->save($entity);
-            
-            $this->redirect('/Books/index');           
-            
+    public function update($id = null){
+        
+        if($id != null){                       
+            // 新規更新画面を表示
+            $this->set('entity' , $this->Books->newEntity());
+            $row = $this->Books->get($id);
+            $this->set('row' , $row);
+            $this->Render('/Books/update');
         }
         else{
-            // 新規更新画面を表示
-            $this->Render('/Books/update');
+            $entity = $this->Books->get($this->request->data['id']);           
+            $this->Books->patchEntity($entity, $this->request->data);
+            $this->Books->save($entity);           
+            $this->redirect('/Books/index');
             
         }                         
                     

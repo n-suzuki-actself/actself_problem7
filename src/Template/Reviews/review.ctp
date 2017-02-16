@@ -1,15 +1,9 @@
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title> 口コミ一覧画面 </title>
-    </head>
-    <body>
         <h1>口コミ一覧表示</h1>       
         <br>
-        <?php echo '「' . $data['title']  . '」' . 'の口コミ一覧'; ?>
+<!--        <?php // '「' . $data['title']  . '」' . 'の口コミ一覧'; ?>-->
         <br>
         <br>       
-        <a href="/cakephp/reviews/addreview/<?php echo $data['id'] ?>" >新規登録</a>
+        <a href="/cakephp/reviews/addreview/<?php echo $obj['book_id'] ?>" >新規登録</a>
         <table border="1">
                         <thead>       
 				<tr>
@@ -22,15 +16,15 @@
 				</tr>
 			</thead>	
                 <tbody>
-                <?php foreach($list as $obj): ?> 
+                <?php foreach($rows as $obj): ?> 
                 <tr>
                     <td><?php echo h($obj['id']) ?></td>
-                    <td> <a href="/cakephp/reviews/updatereview/<?php echo $data['id'] ?>" > <?php echo h($obj['header']) ?></a></td>
+                    <td> <a href="/cakephp/reviews/updatereview/<?php echo $obj['book_id'] ?>" > <?php echo h($obj['header']) ?></a></td>
                     <td><?php echo h($obj['nickname']) ?></td>
-                    <td> <a href="/cakephp/reviews/deletereview/<?php echo $obj['id']?>/<?php echo $data['id']?>"  onClick='return CheckDelete()' >削除</a></td>
+                    <td> <a href="/cakephp/reviews/deletereview/<?php echo $obj['id']?>/<?php echo $obj['book_id']?>"  onClick='return CheckDelete()' >削除</a></td>
                     <td><?php echo $obj['created'] ?></td>
                     <td><?php echo $obj['modified'] ?></td> 
-                    <input name="book_id" type="hidden" value="<?php echo $data['id']?>">                   
+                    <input name="book_id" type="hidden" value="<?php echo $obj['book_id']?>">                   
                 </tr>
 		<?php endforeach; ?>
 		</tbody>
@@ -47,5 +41,3 @@
             }              
                 //alerf("pass");
         </script>
-    </body>
-</html>
