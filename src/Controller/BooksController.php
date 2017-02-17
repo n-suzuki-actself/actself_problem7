@@ -20,13 +20,17 @@ class BooksController extends AppController{
     }
            
     public function index(){
+        $sort = $this->request->query('sort');
+        if(! $sort){
+            $data = $this->Books->find('all', ['order' => ['created' => 'DESC']]);
+            $this->set('data' , $data);
         
-        $data = $this->Books->find('all', [
-            'order' => ['created' => 'DESC']
-        ]);
-        $this->set('data' , $data);
-        $this->set('entity' , $this->Books->newEntity());
-        $this->Render('/Books/index');
+            $this->Render('/Books/index');
+            
+        }elseif($sort == 'rating'){
+        
+        
+        }
     }
     
     public function indexByAverage(){
@@ -65,18 +69,26 @@ class BooksController extends AppController{
             
     }
     
-    public function update($id = null){
-        
-        if($id != null){                       
-            // 新規更新画面を表示
-            $this->set('entity' , $this->Books->newEntity());
-            $row = $this->Books->get($id);
-            $this->set('row' , $row);
+    public function update($id){
+       
+        if($this->request->is('get')){                       
+            // 更新画面を表示
+            $book = $this->Books->get($id);            
+            $this->set('entity' , $book);
             $this->Render('/Books/update');
         }
         else{
-            $entity = $this->Books->get($this->request->data['id']);           
-            $this->Books->patchEntity($entity, $this->request->data);
+            $entity = $this->Books->get($this->request->data['id']);  
+            
+            //$entity->title       = $this->Books->get($this->request->data['title']);
+            $entity->title       = $this->request->data['title'];
+            //$entity->author      = $this->Books->get($this->request->data['author']);
+            $entity->author      = $this->request->data['author'];
+            //$entity->released_in = $this->Books->get($this->request->data['released_in']);
+            $entity->released_in = $this->request->data['released_in'];
+            
+            
+            //$this->Books->patchEntity($entity, $this->request->data);
             $this->Books->save($entity);           
             $this->redirect('/Books/index');
             
