@@ -24,11 +24,14 @@ class BooksController extends AppController{
         if(! $sort){
             $data = $this->Books->find('all', ['order' => ['created' => 'DESC']]);
             $this->set('data' , $data);
-        
+            $this->set('sort',"<a href='/cakephp/books/index?sort=rating'>書籍評価順</a>");
             $this->Render('/Books/index');
             
         }elseif($sort == 'rating'){
-        
+            $data = $this->Books->find('all', ['order' => ['average_score' => 'DESC']]);
+            $this->set('data' , $data);
+            $this->set('sort',"<a href='/cakephp/books/index'>書籍新規順</a>");
+            $this->Render('/Books/index');
         
         }
     }

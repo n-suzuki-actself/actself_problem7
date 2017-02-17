@@ -1,5 +1,5 @@
 		<title> 書籍情報更新画面 </title>
-                <?=$this->Form->create($entity, ['url'=>['action'=>'update']]) ?>
+                <?=$this->Form->create($entity) ?>
 		<h1>書籍情報更新</h1>
                 <fieldset>
 		タイトル：<input name="title" type="text" value="<?php echo $entity['title'] ?>" style="width:150px"><br/>

@@ -1,12 +1,12 @@
         <h1>書籍情報一覧表示</h1>
         <table>
         <br>
-        <a href='/cakephp/books/search'>タイトル絞り込み検索</a>　
+<!--        <a href='/cakephp/books'>タイトル絞り込み検索</a>　-->
         <a href='/cakephp/books/add'>新規登録</a>　
         <a href='/cakephp/users/index'>ユーザー情報一覧</a>
-        <br>
-        <form action="/cakephp/books/indexByAverage" method="post">
-        <input type="submit" value="書籍の評価順に並び替える">
+        <?php echo $sort ?>
+<!--        <a href='/cakephp/books/index?sort=rating'>評価の高い順に並び替える</a>-->
+        
         <br>
         <br>
 				<tr>
