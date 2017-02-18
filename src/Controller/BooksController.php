@@ -20,30 +20,21 @@ class BooksController extends AppController{
     }
            
     public function index(){
+        
         $sort = $this->request->query('sort');
         if(! $sort){
             $data = $this->Books->find('all', ['order' => ['created' => 'DESC']]);
             $this->set('data' , $data);
-            $this->set('sort',"<a href='/cakephp/books/index?sort=rating'>書籍評価順</a>");
+            $this->set('sort' , "<a href='/cakephp/books/index?sort=rating'>書籍評価順</a>");
             $this->Render('/Books/index');
             
         }elseif($sort == 'rating'){
             $data = $this->Books->find('all', ['order' => ['average_score' => 'DESC']]);
             $this->set('data' , $data);
-            $this->set('sort',"<a href='/cakephp/books/index'>書籍新規順</a>");
+            $this->set('sort' , "<a href='/cakephp/books/index'>書籍新規順</a>");
             $this->Render('/Books/index');
         
         }
-    }
-    
-    public function indexByAverage(){
-        // 書籍評価の高い順に並び替えて一覧表示する
-        $books = TableRegistry::get('Books');
-        $column_name = "average_score";
-        $data = $books->getList($column_name);
-        $this->set('data' , $data);       
-        $this->Render('/Books/index');
-        
     }
                        
     public function delete($id){  
@@ -56,6 +47,7 @@ class BooksController extends AppController{
             
         }           
     }    
+    
     
         public function add(){  
         if($this->request->is('post')){
@@ -90,8 +82,6 @@ class BooksController extends AppController{
             //$entity->released_in = $this->Books->get($this->request->data['released_in']);
             $entity->released_in = $this->request->data['released_in'];
             
-            
-            //$this->Books->patchEntity($entity, $this->request->data);
             $this->Books->save($entity);           
             $this->redirect('/Books/index');
             

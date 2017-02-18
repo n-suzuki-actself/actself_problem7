@@ -3,10 +3,18 @@
         <br>
 <!--        <a href='/cakephp/books'>タイトル絞り込み検索</a>　-->
         <a href='/cakephp/books/add'>新規登録</a>　
-        <a href='/cakephp/users/index'>ユーザー情報一覧</a>
-        <?php echo $sort ?>
-<!--        <a href='/cakephp/books/index?sort=rating'>評価の高い順に並び替える</a>-->
-        
+        <a href='/cakephp/users/index'>ユーザー情報一覧</a>　
+        <?php echo $sort ?>  
+        <br>
+<!--        <form action="index" method="get">-->
+            
+            書籍タイトルを入力してください：<input name="keyword" type="text" style="width:150px">
+<!--            ユーザーが入力した値をエンコードしたいけどどうやったらいいのか分からない-->
+            <a href='/cakephp/books/index?keyword=<?php echo urlencode('value') ?>'>検索</a>
+            
+            
+<!--            <input type="submit" value="検索">-->
+        </form>
         <br>
         <br>
 				<tr>
