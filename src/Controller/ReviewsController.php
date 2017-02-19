@@ -16,11 +16,17 @@ class ReviewsController extends AppController{
         parent::__construct($request, $response, $name, $eventManager, $components);
         session_start();
         //var_dump($_SESSION['login']);
-        if(isset($_SESSION['login']) != true){
+        if(! isset($_SESSION['login'])){
             // ログインされてない
             // リダイレクト　ログイン画面へ
             return $this->redirect(['controller' => 'Logins', 'action' => 'login']);
-        }
+            
+        }// セッションの値もチェック
+        elseif($_SESSION['login'] !== true){
+            
+            return $this->redirect(['controller' => 'Logins', 'action' => 'login']);
+            
+        }   
         
     }  
     
