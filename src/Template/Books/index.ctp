@@ -3,22 +3,29 @@
         <br>
         <a href='/cakephp/books/add'>新規登録</a>　
         <a href='/cakephp/users/index'>ユーザー情報一覧</a>　
-        <?php if($key=='rating'){
+        <?php 
+        if($key=='rating'){
             echo "<a href='/cakephp/books/index?sort=rating'>書籍評価順</a>";
         }
         elseif($key=='arrival'){
-           echo "<a href='/cakephp/books/index'>書籍新規順</a>"; 
+            echo "<a href='/cakephp/books/index'>書籍新規順</a>"; 
         }
         ?>          
         <br>
         <form method="get" action="/cakephp/books/index">
-        
-            書籍タイトルを入力してください：<input name="keyword" type="text" style="width:150px">
-           
+        <?php 
+        if(isset($keyword)){
+            echo "書籍タイトルを入力してください：<input name='keyword' type='text' value='{$keyword}' style='width:150px'>";
+        }
+        else{
+            echo '書籍タイトルを入力してください：<input name="keyword" type="text" style="width:150px">';
+        }
+        ?>
+        <input type='submit' value='検索'>
 <!--   入力された値をエンコードしたい,どこでurlencord()を使うんだろうか 
 -->
 <!--            <a href='/cakephp/books/index'>検索</a>-->           
-            <input type="submit" value="検索">
+            
         </form>
         <br>
         <br>        

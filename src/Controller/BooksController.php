@@ -57,6 +57,7 @@ class BooksController extends AppController{
                 ]
             ]);
             // 検索結果を表示
+            $this->set('keyword' , $keyword);
             $this->set('data' , $data);
             $this->Render('/Books/index');
             
