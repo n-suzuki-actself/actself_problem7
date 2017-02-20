@@ -19,6 +19,7 @@ class BooksController extends AppController{
         elseif($_SESSION['login'] !== true){
             
             return $this->redirect(['controller' => 'Logins', 'action' => 'login']);
+           
             
         }
         
@@ -27,43 +28,66 @@ class BooksController extends AppController{
     public function index(){
         // GETパラメータをsortキーで取得
         $sort = $this->request->query('sort');
-        //値が取れない
+        $keyword = $this->request->query('keyword');
+        $search_deal = []; //検索条件
+        
         if(! $sort){
-            // 書籍の新規順に一覧表示
-            $data = $this->Books->find('all', ['order' => ['created' => 'DESC']]);
-            $this->set('data' , $data);
-            // 書籍の評価順リンクを用意
+            //ソート指定無し
+            $search_deal['order'] = ['created' => 'DESC'];
             $this->set('key' , 'rating');
-            $this->Render('/Books/index');
-            
         }
         elseif($sort == 'rating'){
-            // 書籍の評価順に並び替え
-            $data = $this->Books->find('all', ['order' => ['average_score' => 'DESC']]);
-            $this->set('data' , $data);
-            // 書籍の新規順リンクを用意
+            //評価順
+            $search_deal['order'] = ['average_score' => 'DESC'];
             $this->set('key' , 'arrival');
-            $this->Render('/Books/index');
-        
         }
-        // 書籍キーワード検索、keywordキーを取得
-        $keyword = $this->request->query('keyword');
-        //多分ここでデコードする $keyword = urldecode($keyword);
-        if(isset($keyword)){ 
-            // ユーザーが入力したキーワードを検索
-            $data = $this->Books->find('all' , [
-                'conditions'=>[
-                    'title like'=>"%{$keyword}%"
-                ]
-            ]);
-            // 検索結果を表示
+        if(isset($keyword)){
+            //キーワードあり
+            $search_deal['conditions'] = ['title like' => "%{$keyword}%"];
             $this->set('keyword' , $keyword);
-            $this->set('data' , $data);
-            $this->Render('/Books/index');
-            
         }
-   
+        
+        $data = $this->Books->find('all', $search_deal);
+        $this->set('data' , $data);
+        $this->Render('/Books/index');
     }
+        //キーが取れない
+//        if(! $sort){
+//            // 書籍の新規順に一覧表示
+//            $data = $this->Books->find('all', ['order' => ['created' => 'DESC']]);
+//            $this->set('data' , $data);
+//            // 書籍の評価順リンクを用意
+//            $this->set('key' , 'rating');
+//            $this->Render('/Books/index');
+//            
+//        }
+//        elseif($sort == 'rating'){
+//            // 書籍の評価順に並び替え
+//            $data = $this->Books->find('all', ['order' => ['average_score' => 'DESC']]);
+//            $this->set('data' , $data);
+//            // 書籍の新規順リンクを用意
+//            $this->set('key' , 'arrival');
+//            $this->Render('/Books/index');
+//        
+//        }
+//        // 書籍キーワード検索、keywordキーを取得
+//        $keyword = $this->request->query('keyword');
+//        //多分ここでデコードする $keyword = urldecode($keyword);
+//        if(isset($keyword)){ 
+//            // ユーザーが入力したキーワードを検索
+//            $data = $this->Books->find('all' , [
+//                'conditions'=>[
+//                    'title like'=>"%{$keyword}%"
+//                ]
+//            ]);
+//            // 検索結果を表示
+//            $this->set('keyword' , $keyword);
+//            $this->set('data' , $data);
+//            $this->Render('/Books/index');
+//            
+//        }
+   
+    
                        
     public function delete($id){  
         // GETか？
