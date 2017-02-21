@@ -5,27 +5,32 @@
         <a href='/cakephp/users/index'>ユーザー情報一覧</a>　
         <?php 
         if($key=='rating'){
-            echo "<a href='/cakephp/books/index?sort=rating'>書籍評価順</a>";
+            //echo "<a href='/cakephp/books/index?sort=rating'>書籍評価順</a>";
+            echo '<form method="get" action="/cakephp/books/index">';
+            echo "<input name='sort' type='hidden' value='rating'>"; 
+            echo "<input type='submit' value='書籍評価順'>";
         }
         elseif($key=='arrival'){
-            echo "<a href='/cakephp/books/index'>書籍新規順</a>"; 
+            //echo "<a href='/cakephp/books/index'>書籍新規順</a>"; 
+            echo '<form method="get" action="/cakephp/books/index">';
+            //echo "<input name='sort' type='hidden' value='arrival'>"; 
+            echo "<input type='submit' value='書籍新規順'>";
         }
-        ?>          
-        <br>
-        <form method="get" action="/cakephp/books/index">
-        <?php 
-        if(isset($keyword)){
-            echo "書籍タイトルを入力してください：<input name='keyword' type='text' value='{$keyword}' style='width:150px'>";
+        echo '<br>';          
+        echo '<br>';
+        echo '<form method="get" action="/cakephp/books/index">';
+        if(isset($keyword)){                       
+            echo "キーワードを入力してください：<input name='keyword' type='text' value='{$keyword}' style='width:150px'>";
         }
         else{
-            echo '書籍タイトルを入力してください：<input name="keyword" type="text" style="width:150px">';
-        }
+            echo 'キーワードを入力してください：<input name="keyword" type="text" style="width:150px">';
+        }       
+        echo '<input type="radio" name="column_name" value="title" checked>書籍　';
+        echo '<input type="radio" name="column_name" value="author">著者　';
+        echo '<input type="radio" name="column_name" value="released_in">出版年';
+        echo '<br>';
         ?>
-        <input type='submit' value='検索'>
-<!--   入力された値をエンコードしたい,どこでurlencord()を使うんだろうか 
--->
-<!--            <a href='/cakephp/books/index'>検索</a>-->           
-            
+        <input type='submit' value='検索'>                      
         </form>
         <br>
         <br>        
@@ -35,6 +40,7 @@
 					<th>著者</th>
 					<th>出版年</th>
                                         <th>口コミ</th>
+                                        <th>書籍評価</th>
 					<th>登録日時</th>
 					<th>更新日時</th>
 					<th>削除</th>
@@ -47,6 +53,7 @@
                     <td><?php echo h($obj['author']) ?></td>
                     <td><?php echo h($obj['released_in']) ?></td>
                     <td><a href='/cakephp/reviews/review/<?php echo h($obj['id'])?>'>口コミ</a></td>
+                    <td><?php echo h($obj['average_score']) ?></td>
                     <td><?php echo $obj['created'] ?></td>
                     <td><?php echo $obj['modified'] ?></td>        
                     <td> <a href="/cakephp/books/delete/<?php echo $obj['id']?>"  onClick='return CheckDelete()' >削除</a></td>              
