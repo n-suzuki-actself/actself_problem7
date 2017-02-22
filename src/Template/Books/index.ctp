@@ -27,7 +27,6 @@
         }       
         echo '<input type="radio" name="column_name" value="title" checked>書籍　';
         echo '<input type="radio" name="column_name" value="author">著者　';
-        echo '<input type="radio" name="column_name" value="released_in">出版年';
         echo '<br>';
         ?>
         <input type='submit' value='検索'>                      

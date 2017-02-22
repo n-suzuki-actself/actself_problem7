@@ -17,18 +17,36 @@ class LoginsController extends AppController{
         else{
             //$mail_address = $this->request->data['mail_address'];
             //$password     = $this->request->data['password'];
-            $validator = new Validator();
-                    
-            //session_start();
+            $validator = new Validator();            
             $validator                   
                 ->requirePresence('mail_address')
-                ->notEmpty('mail_address' , 'メールアドレス又はパスワードが入力されていません')
-                ->notEmpty('password' , 'メールアドレス又はパスワードが入力されていません')
-                ->add('mail_address', [
-                    'rule' => ['email'],
+                ->notEmpty('mail_address' , 'メールアドレス又はパスワードが入力されていません')             
+                ->add('mail_address','validEmail', [
+                    'rule' => 'email',
+                    'last' => true,
                     'message' => 'メールアドレスが不当です',
-                ]);
+                ])
+                ->requirePresence('password')
+                ->notEmpty('password' , 'メールアドレス又はパスワードが入力されていません');
+                
+            $errors = $validator->errors($this->request->data);
+            var_dump($errors) ;
+            //$_SESSION['login'] = true;
+            //$this->redirect('/Books/index');
+            $this->Render('/Logins/login');
+            //var_dump($errors) ;
+//            if (empty($errors)) {
+//                
+//            }
+
+//                ->requirePresence('password')
+//                ->notEmpty('password' , 'メールアドレス又はパスワードが入力されていません');
+//                $this->Render('/Logins/login');
+//                session_start();
+//                $_SESSION['login'] = true;
+//                $this->redirect('/Books/index');
         }
+        
     }
 }
 
