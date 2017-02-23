@@ -3,7 +3,6 @@
 <!--    <form action="login" method="post">-->
     <h1>ログイン画面</h1>
         <fieldset>
-            <?php if(isset($error_messsage)){echo $error_messsage;} ?>
             <?php echo $this->Form->input('ID', ['name'=>'mail_address','type' => 'text', 'style' =>'width:150px'])?>
 <!--            ID：<input name="mail_address" type="text" style="width:150px"><br/>-->
             <?php echo $this->Form->input('パスワード', ['name'=>'password','type' => 'text', 'style' =>'width:150px'])?>

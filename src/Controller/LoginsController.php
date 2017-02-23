@@ -38,15 +38,16 @@ class LoginsController extends AppController{
                    $error_messsage = $errors['mail_address']['_empty'];
                 }
                 // メールアドレスが不当の場合
-                if(isset($errors['mail_address']['validEmail'])){
+                elseif(isset($errors['mail_address']['validEmail'])){
                     $error_messsage = $errors['mail_address']['validEmail'];
                 }
                 // パスワードが未入力の場合
-                if(isset($errors['password']['_empty'])){
+                elseif(isset($errors['password']['_empty'])){
                     $error_messsage = $errors['password']['_empty'];
                 }
-                // エラーメッセージをフォームに表示
-                $this->set('error_messsage', $error_messsage);
+                // エラーメッセージを表示
+                $this->Flash->error($error_messsage);
+                //$this->set('error_messsage', $error_messsage);
                 $this->Render('/Logins/login');
                 
             }
