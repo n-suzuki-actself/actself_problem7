@@ -70,11 +70,20 @@ class BooksController extends AppController{
         if($this->request->is('post')){
             // ユーザーが入力した書籍情報をオブジェクト化、その後エンティティに保存
             $book_data = $this->Books->newEntity($this->request->data);
-            $this->Books->save($book_data);            
-            // その後、index()へリダイレクト  
-            $this->redirect('/Books/index');
+            // バリデーションOK、書籍一覧へ
+            if($this->Books->save($book_data)){               
+          
+                $this->redirect('/Books/index');
                 
+            } 
+            else{
+                // バリデーションエラーあり、再度登録画面へ
+                $this->set('entity' , $book_data);
+                $this->Render('/Books/add');
+                
+            }    
         }
+        // GET、登録画面へ
         else{
             $this->set('entity' , $this->Books->newEntity());
             $this->Render('/Books/add');

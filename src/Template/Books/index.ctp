@@ -20,10 +20,10 @@
         echo '<br>';
         echo '<form method="get" action="/cakephp/books/index">';
         if(isset($keyword)){                       
-            echo "キーワードを入力してください：<input name='keyword' type='text' value='{$keyword}' style='width:150px'>";
+            echo "<input name='keyword' type='text' value='{$keyword}' style='width:150px'>";
         }
         else{
-            echo 'キーワードを入力してください：<input name="keyword" type="text" style="width:150px">';
+            echo '<input name="keyword" type="text" placeholder="キーワード入力" style="width:150px">';
         }       
         echo '<input type="radio" name="column_name" value="title" checked>書籍　';
         echo '<input type="radio" name="column_name" value="author">著者　';

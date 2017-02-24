@@ -20,36 +20,21 @@ class LoginsController extends AppController{
             $validator = new Validator();            
             $validator                   
                 ->requirePresence('mail_address')
-                ->notEmpty('mail_address' , 'メールアドレス又はパスワードが入力されていません') 
+                ->notEmpty('mail_address') 
                 // メールアドレス形式かチェック
                 ->add('mail_address','validEmail', [
                     'rule' => 'email',
                     'last' => true,
-                    'message' => 'メールアドレスが不当です',                   
+                    //'message' => 'メールアドレスが不当です',                   
                 ])
                 ->requirePresence('password')
-                ->notEmpty('password' , 'メールアドレス又はパスワードが入力されていません');
+                ->notEmpty('password');
                 
             $errors = $validator->errors($this->request->data);
-            // $errorsに値が入っている
-            if(! empty($errors)){
-                // メールアドレスが未入力の場合
-                if(isset($errors['mail_address']['_empty'])){
-                   $error_messsage = $errors['mail_address']['_empty'];
-                }
-                // メールアドレスが不当の場合
-                elseif(isset($errors['mail_address']['validEmail'])){
-                    $error_messsage = $errors['mail_address']['validEmail'];
-                }
-                // パスワードが未入力の場合
-                elseif(isset($errors['password']['_empty'])){
-                    $error_messsage = $errors['password']['_empty'];
-                }
-                // エラーメッセージを表示
-                $this->Flash->error($error_messsage);
-                //$this->set('error_messsage', $error_messsage);
+
+            if($errors){
+                $this->Flash->error("IDまたはパスワードが一致しません");
                 $this->Render('/Logins/login');
-                
             }
             else{ 
                 // バリデーションOK
@@ -59,11 +44,29 @@ class LoginsController extends AppController{
                 $this->redirect('/Books/index');
             }
             
-
         }
         
     }
     
 }
 
- 
+             // $errorsに値が入っている
+//            if(! empty($errors)){
+//                // メールアドレスが未入力の場合
+//                if(isset($errors['mail_address']['_empty'])){
+//                   $error_messsage = $errors['mail_address']['_empty'];
+//                }
+//                // メールアドレスが不当の場合
+//                elseif(isset($errors['mail_address']['validEmail'])){
+//                    $error_messsage = $errors['mail_address']['validEmail'];
+//                }
+//                // パスワードが未入力の場合
+//                elseif(isset($errors['password']['_empty'])){
+//                    $error_messsage = $errors['password']['_empty'];
+//                }
+//                // エラーメッセージを表示
+//                $this->Flash->error($error_messsage);
+//                //$this->set('error_messsage', $error_messsage);
+//                $this->Render('/Logins/login');
+//                
+//            }

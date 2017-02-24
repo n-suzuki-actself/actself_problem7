@@ -3,7 +3,7 @@
 <!--    <form action="login" method="post">-->
     <h1>ログイン画面</h1>
         <fieldset>
-            <?php echo $this->Form->input('ID', ['name'=>'mail_address','type' => 'text', 'style' =>'width:150px'])?>
+            <?php echo $this->Form->input('ID', ['name'=>'mail_address','type' => 'text', 'placeholder'=>'メールアドレスを入力','style' =>'width:160px'])?>
 <!--            ID：<input name="mail_address" type="text" style="width:150px"><br/>-->
             <?php echo $this->Form->input('パスワード', ['name'=>'password','type' => 'text', 'style' =>'width:150px'])?>
 <!--            パスワード：<input name="password" type="text" style="width:150px"><br/>-->
