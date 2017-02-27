@@ -64,7 +64,10 @@ class BooksController extends AppController{
         }           
     }    
         
-    public function add(){ 
+    public function add(){
+        
+        $errors = array();
+        
         // POSTか？
         if($this->request->is('post')){
             // ユーザーが入力した書籍情報をオブジェクト化、その後エンティティに保存
@@ -78,13 +81,15 @@ class BooksController extends AppController{
             } 
             elseif($book_data->errors()){
                 
+                
                 $this->Flash->error('入力が不当です');               
                // var_dump($errors);
-               //$errors=$book_data->errors();
+               $errors = $book_data->errors();
                //print_r($errors);
-               //var_dump($errors);
+               echo json_encode($errors);exit;
                 // バリデーションエラーあり、再度登録画面へ
                 $this->set('entity' , $book_data);
+                $this->set('errors', $errors);
                 $this->Render('/Books/add');
                 
             }    
@@ -92,16 +97,20 @@ class BooksController extends AppController{
         // GET、登録画面へ
         else{
             $this->set('entity' , $this->Books->newEntity());
+            $this->set('errors', $errors);
             $this->Render('/Books/add');
         }
             
     }
     
     public function update($id){
+        
+        //$entity = $this->Books->get($this->request->data['id']);
+        
         // GETか？
         if($this->request->is('get')){                       
             // 更新画面を表示
-            $book = $this->Books->get($id);            
+            $book = $this->Books->get($id);         
             $this->set('entity' , $book);
             $this->Render('/Books/update');
         }
